@@ -1,0 +1,6 @@
+# copy this file to /etc/udev/rules.d/
+
+# normal operation
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="6611", GROUP="users", MODE="0660"
+# DFU mode (firmware update)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", GROUP="users", MODE="0660"
