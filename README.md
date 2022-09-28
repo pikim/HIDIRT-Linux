@@ -16,7 +16,7 @@ Linux host application for HIDIRT (HID InfraRed Transceiver) written in C.
     pc_clock_is_origin = true|false;  => not implemented, yet
         Defines if the host clock is the origin. If true the host clock is copied to the device; if false the device clock is copied to the host.
 
-   calibration_start_time = 0L;  => not implemented, yet
+    calibration_start_time = 0L;  => not implemented, yet
         Helps to calibrate the device clock. Do not modify manually.
 
 
