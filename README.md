@@ -7,7 +7,7 @@ Linux host application for HIDIRT (HID InfraRed Transceiver) written in C.
     send_keys = true|false;
         Enable or disable mapping IR codes to keypresses.
 
-    start_apps = true|false;  => not implemented, yet
+    start_apps = true|false;
         Enable or disable starting an application (with arguments).
 
     sync_clocks = true|false;  => not implemented, yet
@@ -23,15 +23,20 @@ Linux host application for HIDIRT (HID InfraRed Transceiver) written in C.
 ### Section 'mappings'
     {
         description = "any helpful name";
+            Name for the mapping. Isn't used by the application and therefore it's only useful for documentation purposes.
+
         ir_protocol = 0x02;
         ir_address = 0x5aa5;
         ir_command = 0x000a;
 
         key = "A";
-            Keysequence to be sent. Any combination of X11 KeySym names separated by '+' are valid. Single KeySym names are valid, too. KeySym names can be found using xorg-xev tool.
+            Keysequence to be sent. Any combination of X11 KeySym names separated by '+' are valid. Single KeySym names are valid, too. KeySym names can be found using 'xorg-xev' tool.
 
-        application = "# path to an application to be started";
-        parameter = "# parameter for the application";
+        application = "/path/to/binary";
+            Application to be started. Ideally this is an absolute path to a binary or shell script. The daemon waits until the application finishes. So, if you want to start a long-running process, you must use an appropriate shell script as starter.
+
+        parameter = "# arg1 arg2";
+            Parameters for the application.
     },
 
 ## Usage
@@ -39,7 +44,7 @@ hidirt [options]
 
 ## Options
     no option
-      Starts the binary in daemon mode that waits for IR codes and eventually maps them to key presses and/or starts a predefined application (with predefined arguments). Application start not implemented, yet.
+      Starts the binary in daemon mode that waits for IR codes and eventually maps them to key presses and/or starts a predefined application (with predefined arguments).
 
     -b[=0|1]
       Read state, enable or disable controlling the buttons. When enabled, the hardware device controls the power and reset buttons.

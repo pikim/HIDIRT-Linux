@@ -530,6 +530,9 @@ void handle_ir_code(struct ircode* ir_code) {
 	int send_keys = false;
 	config_lookup_bool(&cfg, "settings.send_keys", &send_keys);
 
+	int start_apps = false;
+	config_lookup_bool(&cfg, "settings.start_apps", &start_apps);
+
 	// get all the mappings
 	mappings = config_lookup(&cfg, "mappings");
 	if (mappings != NULL) {
@@ -540,7 +543,7 @@ void handle_ir_code(struct ircode* ir_code) {
 			// get one single mapping
 			config_setting_t *mapping = config_setting_get_elem(mappings, i);
 			int protocol, address, command;
-			const char *key; // *application, *parameter;
+			const char *key, *application, *parameter;
 
 			// if any of the settings doesn't exist, proceed to next mapping
 			if ( !(config_setting_lookup_int(mapping, "ir_protocol", &protocol)
@@ -557,8 +560,20 @@ void handle_ir_code(struct ircode* ir_code) {
 			}
 
 			// send key (sequence) if there is any and this feature is enabled
-			if (send_keys && config_setting_lookup_string(mapping, "key", &key)) {
+			if (send_keys
+				&& config_setting_lookup_string(mapping, "key", &key)) {
 				xdo_send_keysequence_window(x, CURRENTWINDOW, key, 2000);
+			}
+
+			// start app if there is any and this feature is enabled
+			if (start_apps
+				&& config_setting_lookup_string(mapping, "application", &application)
+				&& config_setting_lookup_string(mapping, "parameter", &parameter)) {
+				char call[256];
+				strcpy(call, application);
+				strcat(call, " ");
+				strcat(call, parameter);
+				system(call);
 			}
 		}
 	}
